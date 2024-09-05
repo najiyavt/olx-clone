@@ -1,24 +1,22 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { firebase, firestore } from "./firebase/config";
-import { collection, getDocs ,addDoc } from "firebase/firestore";
+import { firestore } from "./firebase/config";
+import { deleteDoc, doc} from "firebase/firestore";
 
 function App() {
-  const handleClick = async () => {
+  const handleClick = async (docId) => {
     try {
-      const productRef = await addDoc(collection(firestore, "products") , {
-        name: ' Orange' , 
-        price: 200
-      });
-      console.log("Document written with ID", productRef.id );
+      const productRef = doc(firestore, "products" , docId );
+      await deleteDoc(productRef)
+      console.log("Succesfully deleted" );
     } catch (error) {
-      console.error("Error fetchin docs", error);
+      console.error("Error deleting docs", error);
     }
   };
   return (
     <div className="App">
-      <button onClick={handleClick}>Click me</button>
-    </div>
+      <button onClick={() => handleClick('5PFgAM338Lc70qt2HPFF')}>Delete Document</button>
+      </div>
   );
 }
 
