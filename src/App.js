@@ -1,16 +1,16 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { firebase, firestore } from "./firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs ,addDoc } from "firebase/firestore";
 
 function App() {
   const handleClick = async () => {
     try {
-      const productRef = collection(firestore, "products");
-      const snapshot = await getDocs(productRef);
-      snapshot.forEach((doc) => {
-        console.log(doc.data(),doc.id);
+      const productRef = await addDoc(collection(firestore, "products") , {
+        name: ' Orange' , 
+        price: 200
       });
+      console.log("Document written with ID", productRef.id );
     } catch (error) {
       console.error("Error fetchin docs", error);
     }
